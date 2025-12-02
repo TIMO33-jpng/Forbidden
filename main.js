@@ -35,11 +35,11 @@ const server = net.createServer((socket) => {
         const [method, url] = request.split(" ");
 
         let filepath = url === "/" ? path.join(siteRoot, "index.html") : path.join(siteRoot, url);
-
+      
         const resolved = path.resolve(filepath);
         const allowedroot = path.resolve("./public");
 
-        if(!resolved.startsWith(allowedroot)) {
+        if (!resolved.startsWith(allowedroot)) {
             socket.write("HTTP/1.1 403 Forbidden\r\n\r\n");
             socket.end();
             return;
