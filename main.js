@@ -19,11 +19,11 @@ const server = net.createServer((socket) => {
     socket.on("data", (data) => {
         const request = data.toString();
         console.log(request)
-        
+
         const [method, url] = request.split(" ");
 
         let filepath = url === "/" ? "./index.html" : "." + url;
-        
+
         const ext = path.extname(filepath);
 
         if (!fs.existsSync(filepath)) {
@@ -36,18 +36,33 @@ const server = net.createServer((socket) => {
 
         const contentType = mimeTypes[ext] || "application/octet-stream";
 
-        const responseHeaders = 
-        `HTTP/1.1 200 OK\r\n` +
-        `Content-Type: ${contentType}\r\n` +
-        `Content-Length: ${fileData.length}\r\n` +
-        `\r\n`;
+        const responseHeaders =
+            `HTTP/1.1 200 OK\r\n` +
+            `Content-Type: ${contentType}\r\n` +
+            `Content-Length: ${fileData.length}\r\n` +
+            `\r\n`;
 
-        socket.write(responseHeaders);
-        socket.write(fileData);
-        socket.end();        
+        try {
+
+            socket.write(responseHeaders);
+            socket.write(fileData);
+            socket.end();
+        } catch (err) {
+            console.log("File Read/Write error", err.message);
+            socket.end();
+        }
     });
     socket.on("close", () => {
-        socket.end();
+        console.log("Connection closed")
+    });
+    socket.on("error", (err) => {
+        if(err.code === "ECONNRESET"){
+            console.log("Client clossed connection early(ECONNRESET). Ignoring.")
+        }
+        else {
+        console.log("Socket error:", err.message)
+        socket.destroy();
+        }
     });
 });
 
