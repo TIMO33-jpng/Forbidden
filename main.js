@@ -8,32 +8,51 @@ const mimeTypes = {
     ".js": "application/javascript",
     ".png": "image/png",
     ".jpg": "image/jpeg",
-    "jpeg": "image/jpeg",
+    ".jpeg": "image/jpeg",
     ".gif": "image/gif",
     ".svg": "image/svg+xml"
 };
 
-console.log("Logs from your program will appear here!");
+console.log("Logs här");
 
 const server = net.createServer((socket) => {
     socket.on("data", (data) => {
         const request = data.toString();
         console.log(request)
 
+        let host = request.match(/Host: ([^\r\n]+)/)?.[1] || "";
+        host = host.split(":")[0];
+
+        let siteRoot = "./public/korv";
+
+        if (host === "korv.local") {
+            siteRoot = "./public/korv";
+        }
+        else if (host === "bratwurst.local") {
+            siteRoot = "./public/bratwurst";
+        }
+
         const [method, url] = request.split(" ");
 
-        let filepath = url === "/" ? "./index.html" : "." + url;
+        let filepath = url === "/" ? path.join(siteRoot, "index.html") : path.join(siteRoot, url);
 
-        const ext = path.extname(filepath);
+        const resolved = path.resolve(filepath);
+        const allowedroot = path.resolve("./public");
 
-        if (!fs.existsSync(filepath)) {
+        if(!resolved.startsWith(allowedroot)) {
+            socket.write("HTTP/1.1 403 Forbidden\r\n\r\n");
+            socket.end();
+            return;
+        }
+
+        if (!fs.existsSync(resolved)) {
             socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
             socket.end();
             return;
         }
 
-        const fileData = fs.readFileSync(filepath);
-
+        const ext = path.extname(resolved);
+        const fileData = fs.readFileSync(resolved);
         const contentType = mimeTypes[ext] || "application/octet-stream";
 
         const responseHeaders =
@@ -43,7 +62,6 @@ const server = net.createServer((socket) => {
             `\r\n`;
 
         try {
-
             socket.write(responseHeaders);
             socket.write(fileData);
             socket.end();
@@ -56,12 +74,12 @@ const server = net.createServer((socket) => {
         console.log("Connection closed")
     });
     socket.on("error", (err) => {
-        if(err.code === "ECONNRESET"){
+        if (err.code === "ECONNRESET") {
             console.log("Client clossed connection early(ECONNRESET). Ignoring.")
         }
         else {
-        console.log("Socket error:", err.message)
-        socket.destroy();
+            console.log("Socket error:", err.message)
+            socket.destroy();
         }
     });
 });
