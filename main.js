@@ -17,6 +17,7 @@ console.log("Logs här");
 
 const server = net.createServer((socket) => {
     socket.on("data", (data) => {
+        console.log(data)
         const request = data.toString();
         console.log(request)
 
@@ -35,7 +36,7 @@ const server = net.createServer((socket) => {
         const [method, url] = request.split(" ");
 
         let filepath = url === "/" ? path.join(siteRoot, "index.html") : path.join(siteRoot, url);
-      
+    
         const resolved = path.resolve(filepath);
         const allowedroot = path.resolve("./public");
 
@@ -69,6 +70,7 @@ const server = net.createServer((socket) => {
             console.log("File Read/Write error", err.message);
             socket.end();
         }
+
     });
     socket.on("close", () => {
         console.log("Connection closed")
