@@ -1,3 +1,5 @@
+//BEST BRATWURST TCP-SERVER EVER
+
 const net = require("net");
 const fs = require("fs");
 const path = require("path");
@@ -22,6 +24,7 @@ console.log("Logs här");
 
 const server = net.createServer((socket) => {
     socket.on("data", (data) => {
+        console.log(data)
         const request = data.toString();
         console.log(request)
 
@@ -43,7 +46,7 @@ const server = net.createServer((socket) => {
         const resolved = path.resolve(filepath);
         const allowedroot = path.resolve(publicRoot);
 
-        if(!resolved.startsWith(allowedroot)) {
+        if (!resolved.startsWith(allowedroot)) {
             socket.write("HTTP/1.1 403 Forbidden\r\n\r\n");
             socket.end();
             return;
@@ -73,6 +76,7 @@ const server = net.createServer((socket) => {
             console.log("File Read/Write error", err.message);
             socket.end();
         }
+
     });
     socket.on("close", () => {
         console.log("Connection closed")
