@@ -1,15 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style/css.css">
-    <title>Korv Webbserver</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Korv Deluxe</title>
+  <link rel="stylesheet" href="style/css.css">
+
 </head>
-
 <body>
-    <h1>Korv</h1>
-</body>
+  <h1>🔥 Korv Deluxe 🔥</h1>
+  <p>Timo gillar korv, *wink wink* 😏</p>
 
+  <div id="korv-fakta">Klicka på knappen för en asynkad korv-fakta 🍖</div>
+  <button onclick="hamtaKorvFakta()">Hämta Korv-fakta</button>
+
+  <script>
+    async function hamtaKorvFakta() {
+      const faktaRuta = document.getElementById('korv-fakta');
+      faktaRuta.textContent = 'Hämtar korv-fakta... 🌭';
+
+      try {
+        // Fake async fetch
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        const faktaLista = [
+          'Korv är alltid godare efter midnatt.',
+          'Det finns över 500 olika sorters korv i världen.',
+          'Timo äter korv snabbare än ljusets hastighet (nästan).',
+          'En perfekt grillad korv kräver tålamod och respekt.',
+          'Timos törst för korv är mer än en höra för kuk'
+        ];
+
+        const slump = faktaLista[Math.floor(Math.random() * faktaLista.length)];
+        faktaRuta.textContent = slump;
+      } catch (error) {
+        faktaRuta.textContent = 'Kunde inte hämta korv-fakta 😢';
+      }
+    }
+  </script>
+</body>
 </html>

@@ -1,9 +1,38 @@
-body{
-    width: 100%;
-    height: 100%;
-    background-color: blue;
-    align-content: center;
-}
-h1{
-    color: red;
-}
+body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff7a7a, #ffb84d);
+      color: #222;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    #korv-fakta {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      background: rgba(255,255,255,0.3);
+      padding: 1rem 2rem;
+      border-radius: 20px;
+      max-width: 400px;
+    }
+    button {
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #fff;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
