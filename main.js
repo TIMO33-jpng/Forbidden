@@ -9,6 +9,28 @@ const ROOT = process.pkg ? path.dirname(process.execPath) : __dirname
 const config = require("./site.json");
 const SITES = config.sites;
 
+const ensureSiteDirs = () => {
+    Object.values(SITES || {}).forEach(relPath => {
+        const siteDir = path.join(ROOT, relPath);
+        try {
+            if (!fs.existsSync(siteDir)) {
+                fs.mkdirSync(siteDir, { recursive: true });
+                const indexPath = path.join(siteDir, "index.html");
+                if (!fs.existsSync(indexPath)) {
+                    fs.writeFileSync(indexPath,
+                        `<!doctype html><meta charset="utf-8"><title>${path.basename(relPath)}</title><h1>${path.basename(relPath)} - Created</h1>`
+                    );
+                }
+                console.log("Created site directory:", siteDir);
+            }
+        } catch (err) {
+            console.log("Failed to create site directory", siteDir, err.message);
+        }
+    });
+};
+
+ensureSiteDirs();
+
 const mimeTypes = {
     ".html": "text/html",
     ".css": "text/css",

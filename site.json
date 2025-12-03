@@ -1,6 +1,11 @@
 {
     "sites": {
         "korv.local": "public/korv",
-        "bratwurst.local": "public/bratwurst"
+        "bratwurst.local": "public/bratwurst",
+        "falukorv.local": "public/falukorv",
+        "grillkorv.local": "public/grillkorv",
+        "grynkorv.local": "public/grynkorv",
+        "vego.local": "public/vego",
+        "chorizo.local": "public/chorizo"
     }
 }
