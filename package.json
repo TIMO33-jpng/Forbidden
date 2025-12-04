@@ -2,7 +2,7 @@
   "name": "forbidden_httpserver",
   "version": "1.0.0",
   "bin": {
-    "timo_webserver": "main.js"
+    "forbidden_httpserver": "main.js"
   },
   "pkg": {
     "outputPath": "dist",
