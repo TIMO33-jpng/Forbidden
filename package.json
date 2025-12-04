@@ -1,5 +1,5 @@
 {
-  "name": "timo_webserver",
+  "name": "forbidden_httpserver",
   "version": "1.0.0",
   "bin": {
     "timo_webserver": "main.js"
@@ -13,15 +13,12 @@
   },
   "description": "",
   "main": "main.js",
-  "dependencies": {
-    "dotenv": "^17.2.3"
-  },
   "devDependencies": {
     "pkg": "^5.8.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:exe": "pkg . --out-path dist --targets node18-win-x64"
+    "build:exe": "pkg . --out-path . --targets node18-win-x64"
   },
   "repository": {
     "type": "git",
@@ -34,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/TIMO33-jpng/Webbserver/issues"
   },
-  "homepage": "https://github.com/TIMO33-jpng/Webbserver#readme"
+  "homepage": "https://github.com/TIMO33-jpng/Webbserver#readme",
+  "dependencies": {
+    "daemon": "^1.1.0"
+  }
 }

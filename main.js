@@ -7,6 +7,13 @@ const { execFile } = require("child_process");
 
 const ROOT = process.pkg ? path.dirname(process.execPath) : __dirname
 
+// write PID so external scripts can check
+const pidFile = path.join(ROOT, 'timo_webserver.pid');
+try { fs.writeFileSync(pidFile, String(process.pid)); } catch(e) {}
+process.on('exit', () => { try { fs.unlinkSync(pidFile); } catch(e) {} });
+process.on('SIGINT', () => process.exit());
+process.on('SIGTERM', () => process.exit());
+
 const config = require("./site.json");
 const SITES = config.sites;
 
@@ -186,7 +193,8 @@ const server = net.createServer((socket) => {
         }
     });
 });
-
-server.listen(4221, () => {
-    console.log("Server running on port 4221");
+const port = 4221;
+server.listen(port, () => {
+    console.log("Server running on port:", port);
 });
+
